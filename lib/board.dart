@@ -107,21 +107,23 @@ class _BoardState extends State<Board> {
             onTapDown: (details) {
               pointerPosition = details.localPosition;
             },
-            onTap: () {
-              switch (values.reveal(pointerPosition.dx ~/ pieceSize,
-                  pointerPosition.dy ~/ pieceSize)) {
-                case 1:
-                  gameOver = true;
-                  break;
-                case 2:
-                  gameOver = true;
-                  gameWon = true;
-                  break;
-                default:
-              }
+            onTap: gameOver
+                ? null
+                : () {
+                    switch (values.reveal(pointerPosition.dx ~/ pieceSize,
+                        pointerPosition.dy ~/ pieceSize)) {
+                      case 1:
+                        gameOver = true;
+                        break;
+                      case 2:
+                        gameOver = true;
+                        gameWon = true;
+                        break;
+                      default:
+                    }
 
-              setState(() {});
-            },
+                    setState(() {});
+                  },
             onLongPress: () {
               values.toggleFlag(pointerPosition.dx ~/ pieceSize,
                   pointerPosition.dy ~/ pieceSize);

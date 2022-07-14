@@ -148,35 +148,35 @@ class _BoardState extends State<Board> {
           visible: gameOver,
           child: Center(
             child: Container(
-              width: 1000 * RelSize(context).pixel(),
-              height: 1000 * RelSize(context).pixel(),
+              width: 1000 * RelSize(context).pixel,
+              height: 1000 * RelSize(context).pixel,
               decoration: BoxDecoration(
                 color: Colors.black.withAlpha(200),
                 borderRadius:
-                    BorderRadius.circular(10 * RelSize(context).pixel()),
+                    BorderRadius.circular(10 * RelSize(context).pixel),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     gameWon ? "You win :)" : "Game over",
-                    style: TextStyle(fontSize: 160 * RelSize(context).pixel()),
+                    style: TextStyle(fontSize: 160 * RelSize(context).pixel),
                   ),
                   Text(
                     "Score: ${values.points.toStringAsFixed(0)}",
-                    style: TextStyle(fontSize: 64 * RelSize(context).pixel()),
+                    style: TextStyle(fontSize: 64 * RelSize(context).pixel),
                   ),
                   const Spacer(),
                   Padding(
                     padding: EdgeInsets.all(
-                      100 * RelSize(context).pixel(),
+                      100 * RelSize(context).pixel,
                     ),
                     child: Container(
-                      height: 100 * RelSize(context).pixel(),
-                      width: 400 * RelSize(context).pixel(),
+                      height: 100 * RelSize(context).pixel,
+                      width: 400 * RelSize(context).pixel,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(
-                          10 * RelSize(context).pixel(),
+                          10 * RelSize(context).pixel,
                         ),
                       ),
                       child: InkWell(
@@ -184,13 +184,13 @@ class _BoardState extends State<Board> {
                           restart();
                         },
                         borderRadius: BorderRadius.circular(
-                          10 * RelSize(context).pixel(),
+                          10 * RelSize(context).pixel,
                         ),
                         child: Center(
                           child: Text(
                             "Restart",
                             style: TextStyle(
-                              fontSize: 60 * RelSize(context).pixel(),
+                              fontSize: 60 * RelSize(context).pixel,
                             ),
                           ),
                         ),
@@ -244,8 +244,5 @@ class BoardPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    if (1 == 1) return true;
-    throw UnimplementedError();
-  }
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

@@ -5,6 +5,12 @@ import 'package:infinimines/settings.dart';
 
 void main() {
   runApp(const App());
+
+  runApp(
+    const MaterialApp(
+      home: Scaffold(),
+    ),
+  );
 }
 
 class App extends StatelessWidget {
@@ -57,7 +63,7 @@ class _FrameState extends State<Frame> {
             top: 0,
             right: 0,
             child: IconButton(
-              iconSize: 64 * RelSize(context).pixel(),
+              iconSize: 64 * RelSize(context).pixel,
               onPressed: () {
                 setState(() {
                   settingsOpen = !settingsOpen;

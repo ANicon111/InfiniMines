@@ -18,7 +18,7 @@ class _SettingsState extends State<Settings> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
-            width: 600 * RelSize(context).pixel(),
+            width: 600 * RelSize(context).pixel,
             child: TextFormField(
               decoration:
                   const InputDecoration(label: Text("Mine percentage:")),

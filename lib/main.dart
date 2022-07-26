@@ -5,12 +5,6 @@ import 'package:infinimines/settings.dart';
 
 void main() {
   runApp(const App());
-
-  runApp(
-    const MaterialApp(
-      home: Scaffold(),
-    ),
-  );
 }
 
 class App extends StatelessWidget {

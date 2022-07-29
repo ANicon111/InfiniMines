@@ -106,15 +106,7 @@ class BoardValues {
               _values[y + i]![x + j] != null &&
               _values[y + i]![x + j]!.isMine) {
             _values[y + i]![x + j]!.isMine = false;
-            for (int i1 = -1; i1 <= 1; i1++) {
-              for (int j1 = -1; j1 <= 1; j1++) {
-                if (_values[y + i + i1] != null &&
-                    _values[y + i + i1]![x + j + j1] != null) {
-                  _values[y + i + i1]![x + j + j1]!.numberOfMinesAround--;
-                }
-              }
-            }
-            generateArea(x - 2, y - 2, 5, 5);
+            generateArea(x - 3, y - 3, 7, 7);
           }
         }
       }

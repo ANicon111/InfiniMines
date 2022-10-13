@@ -98,7 +98,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- LICENSE -->
 ## License
 
-Distributed under the GNU General Public License. See `LICENSE.txt` for more information.
+Distributed under the GNU General Public License. See `LICENSE` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -124,7 +124,7 @@ Project Link: [https://github.com/ANicon111/InfiniMines](https://github.com/ANic
 [issues-shield]: https://img.shields.io/github/issues/ANicon111/InfiniMines.svg?style=for-the-badge
 [issues-url]: https://github.com/ANicon111/InfiniMines/issues
 [license-shield]: https://img.shields.io/github/license/ANicon111/InfiniMines.svg?style=for-the-badge
-[license-url]: https://github.com/ANicon111/InfiniMines/blob/master/LICENSE.txt
+[license-url]: https://github.com/ANicon111/InfiniMines/blob/master/LICENSE
 [product-screenshot]: images/screenshot.png
 [Flutter.dev]: https://img.shields.io/badge/flutter-FFF?style=for-the-badge&logo=flutter&logoColor=blue
 [Flutter-url]: https://flutter.dev

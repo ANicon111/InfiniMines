@@ -1,14 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:infinimines/definitions.dart';
 import 'package:infinimines/logic.dart';
 import 'dart:ui' as ui;
 
 class Board extends StatefulWidget {
   final double minePercentage;
-  const Board({Key? key, required this.minePercentage}) : super(key: key);
+  final int safeArea;
+  final Map<String, ui.Image?> images;
+  const Board(
+      {Key? key,
+      required this.minePercentage,
+      required this.images,
+      required this.safeArea})
+      : super(key: key);
 
   @override
   State<Board> createState() => _BoardState();
@@ -16,50 +22,24 @@ class Board extends StatefulWidget {
 
 class _BoardState extends State<Board> {
   TransformationController ctrlr = TransformationController();
-  BoardValues values = BoardValues(0.25);
+  BoardValues values = BoardValues(0.25, 5);
   Offset pointerPosition = const Offset(0, 0);
   final double pieceSize = 100;
   bool gameOver = false;
   bool gameWon = false;
   Timer? refreshTimer;
 
-  final Map<String, ui.Image?> images = {
-    "flag.png": null,
-    "exploded.png": null,
-    "undiscovered1.png": null,
-    "undiscovered2.png": null,
-    "undiscovered3.png": null,
-    "undiscovered4.png": null,
-    "undiscovered5.png": null,
-    "0.png": null,
-    "1.png": null,
-    "2.png": null,
-    "3.png": null,
-    "4.png": null,
-    "5.png": null,
-    "6.png": null,
-    "7.png": null,
-    "8.png": null,
-  };
-
-  void _loadImage(String name) async {
-    final data = await rootBundle.load("assets/$name");
-    images[name] = await decodeImageFromList(data.buffer.asUint8List());
-    setState(() {});
-  }
-
   ui.Image? _getImage(CellValue cell) {
     if (!cell.isRevealed) {
-      if (cell.flagged) return images["flag.png"];
-      return images["undiscovered${cell.spriteVariant}.png"];
+      if (cell.flagged) return widget.images["flag.png"];
+      return widget.images["undiscovered${cell.spriteVariant}.png"];
     }
-    if (cell.isMine) return images["exploded.png"];
-    return images["${cell.numberOfMinesAround}.png"];
+    if (cell.isMine) return widget.images["exploded.png"];
+    return widget.images["${cell.numberOfMinesAround}.png"];
   }
 
   @override
   void initState() {
-    images.forEach((key, value) => _loadImage(key));
     resetCamera();
     refreshTimer = Timer.periodic(
       const Duration(milliseconds: 1000 ~/ 30),
@@ -81,7 +61,7 @@ class _BoardState extends State<Board> {
   }
 
   void restart() {
-    values = BoardValues(widget.minePercentage);
+    values = BoardValues(widget.minePercentage, widget.safeArea);
     resetCamera();
     gameOver = false;
     gameWon = false;
@@ -91,7 +71,10 @@ class _BoardState extends State<Board> {
   @override
   Widget build(BuildContext context) {
     if (values.minePercentage != widget.minePercentage) {
-      values = BoardValues(widget.minePercentage);
+      values = BoardValues(widget.minePercentage, widget.safeArea);
+    }
+    if (values.safeArea != widget.safeArea) {
+      values.safeArea = widget.safeArea;
     }
     return Stack(
       children: [
@@ -224,7 +207,7 @@ class BoardPainter extends CustomPainter {
     int y = -screen.row1.a ~/ scale;
     int width = screenSize.width ~/ scale;
     int height = screenSize.height ~/ scale;
-    values.generateArea(
+    values.updateArea(
         x > safeArea ? x - safeArea : 0,
         y > safeArea ? y - safeArea : 0,
         width + 2 * safeArea,

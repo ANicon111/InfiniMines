@@ -19,13 +19,14 @@ class CellValue {
 
 class BoardValues {
   double minePercentage;
-  BoardValues(this.minePercentage);
+  int safeArea;
+  BoardValues(this.minePercentage, this.safeArea);
 
   int points = 0;
   bool firstTap = true;
   final Map<int, Map<int, CellValue>> _values = {};
 
-  void generateArea(int x, int y, int w, int h) {
+  void updateArea(int x, int y, int w, int h) {
     int numberOfMines = (w * h * minePercentage).toInt();
     int numberOfFreeSpaces = w * h - numberOfMines;
     for (int i = y; i < y + h; i++) {
@@ -98,20 +99,38 @@ class BoardValues {
     }
     if (firstTap) {
       firstTap = false;
-      if (x < 2) x = 2;
-      if (y < 2) y = 2;
-      for (int i = -2; i <= 2; i++) {
-        for (int j = -2; j <= 2; j++) {
+      if (x < safeArea ~/ 2) x = safeArea ~/ 2;
+      if (y < safeArea ~/ 2) y = safeArea ~/ 2;
+      for (int i = -safeArea ~/ 2; i < safeArea / 2; i++) {
+        for (int j = -safeArea ~/ 2; j < safeArea / 2; j++) {
           if (_values[y + i] != null &&
               _values[y + i]![x + j] != null &&
               _values[y + i]![x + j]!.isMine) {
             _values[y + i]![x + j]!.isMine = false;
-            generateArea(x - 3, y - 3, 7, 7);
           }
         }
       }
+      updateArea(x - safeArea ~/ 2 - 1, y - safeArea ~/ 2 - 1, safeArea + 2,
+          safeArea + 2);
     }
-    if (!_values[y]![x]!.isRevealed && !_values[y]![x]!.flagged) {
+    int numberOfFlagsAround = 0;
+    for (int i = -1; i <= 1; i++) {
+      for (int j = -1; j <= 1; j++) {
+        if (_values[y + i] != null &&
+            _values[y + i]![x + j] != null &&
+            (_values[y + i]![x + j]!.flagged ||
+                _values[y + i]![x + j]!.spriteVariant == 5)) {
+          numberOfFlagsAround++;
+        }
+      }
+    }
+    if (!_values[y]![x]!.isRevealed && !_values[y]![x]!.flagged ||
+        _values[y]![x]!.isRevealed &&
+            _values[y]![x]!.numberOfMinesAround == numberOfFlagsAround) {
+      bool revealAround = false;
+      if (_values[y]![x]!.numberOfMinesAround == numberOfFlagsAround) {
+        revealAround = true;
+      }
       List<int> stepsX = [x];
       List<int> stepsY = [y];
       int depth = 0;
@@ -121,13 +140,13 @@ class BoardValues {
         x = stepsX[depth];
         y = stepsY[depth];
         depth++;
-        if (_values[y]![x]!.numberOfMinesAround == 0) {
+        if (_values[y]![x]!.numberOfMinesAround == 0 || revealAround) {
           for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
               if (_values[y + i] != null &&
                   _values[y + i]![x + j] != null &&
                   !_values[y + i]![x + j]!.isRevealed &&
-                  !_values[y + i]![x + j]!.isMine &&
+                  (!_values[y + i]![x + j]!.isMine || revealAround) &&
                   !_values[y + i]![x + j]!.flagged &&
                   _values[y + i]![x + j]!.spriteVariant != 5) {
                 _values[y + i]![x + j]!.isRevealed = true;
@@ -137,6 +156,7 @@ class BoardValues {
               }
             }
           }
+          revealAround = false;
         }
       }
       if (!_values[y]![x]!.isMine) points += max;

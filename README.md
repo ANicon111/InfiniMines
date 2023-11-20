@@ -107,7 +107,7 @@ Distributed under the GNU General Public License. See `LICENSE` for more informa
 <!-- CONTACT -->
 ## Contact
 
-Albu Nicon Georgian - [@ANicon111](https://twitter.com/ANicon111) - nicon@containrr.com
+Albu Nicon Georgian  - nicon@containrr.com
 
 Project Link: [https://github.com/ANicon111/InfiniMines](https://github.com/ANicon111/InfiniMines)
 
